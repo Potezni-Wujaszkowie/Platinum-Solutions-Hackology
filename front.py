@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 PRODUCTS = ["\"Product A\"", "\"Product B\"", "\"Product C\"", "\"Product D\""]
 DISTRIBUTORS = ["\"Distributor X\"", "\"Distributor Y\"", "\"Distributor Z\""]
 
-def generate_random_df():
+def generate_random_df(product, distributor):
     np.random.seed(42)
     dates = pd.date_range(start='2023-01-01', end='2023-12-31', freq='D')
     quantity = np.random.randint(50, 500, len(dates)) * (PRODUCTS.index(product) + 1) * (DISTRIBUTORS.index(distributor) + 1)
@@ -16,7 +16,7 @@ def generate_random_df():
     })
 
 def generate_predictions(product, distributor):
-    return generate_random_df()
+    return generate_random_df(product, distributor)
 
 def aggregate_data(df, aggregation):
     if aggregation == "Weekly":
