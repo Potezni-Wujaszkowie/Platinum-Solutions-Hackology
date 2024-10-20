@@ -8,6 +8,8 @@ from predict import predict
 
 PRODUCTS = ["\"Product 1\""]
 DISTRIBUTORS = ["\"Distributor X\"", "\"Distributor Y\"", "\"Distributor Z\""]
+DISTRIBUTORS_MAPPER = {"\"Distributor X\"": 1, "\"Distributor Y\"": 2 , "\"Distributor Z\"" : 3}
+
 
 def generate_random_df(product, distributor):
     np.random.seed(42)
@@ -20,7 +22,7 @@ def generate_random_df(product, distributor):
 
 def generate_predictions(product, distributor):
     np.random.seed(42)
-    preds = predict(1)
+    preds = predict(DISTRIBUTORS_MAPPER[distributor])
     today = datetime.now()
     end_of_month = datetime(today.year+1, today.month-1, today.day)
     days_reamin = (end_of_month - today).days

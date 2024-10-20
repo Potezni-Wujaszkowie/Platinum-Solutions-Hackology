@@ -37,7 +37,7 @@ def predict(dist_id):
 
     model = GRURegressionModel(input_dim, hidden_dim, output_dim, n_layers, dropout)
 
-    model.load_state_dict(torch.load(f"models/data2/model_weights{eps_to_load}.pth", weights_only=True))
+    model.load_state_dict(torch.load(f"models/data{dist_id}/model_weights{eps_to_load}.pth", weights_only=True))
     model.eval()
     model = model.to(device)
 
