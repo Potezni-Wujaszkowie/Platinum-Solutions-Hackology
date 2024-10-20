@@ -26,34 +26,26 @@ class GRURegressionModel(nn.Module):
 
         self.inp = nn.Linear(input_dim, hidden_dim)
         
-        self.input_dim = input_dim  # Wymiar wejściowy
-        self.hidden_dim = hidden_dim  # Wymiar ukryty
-        self.output_dim = output_dim  # Wymiar wyjściowy
-        self.n_layers = n_layers  # Liczba warstw GRU
+        self.input_dim = input_dim
+        self.hidden_dim = hidden_dim
+        self.output_dim = output_dim
+        self.n_layers = n_layers
         
-        # Warstwa GRU
         self.gru = nn.GRU(input_size=input_dim, 
                           hidden_size=hidden_dim, 
                           num_layers=n_layers, 
                           dropout=dropout, 
-                          batch_first=True)  # Umożliwiamy podanie danych w formacie (batch, seq, feature)
+                          batch_first=True)
 
-        # Warstwa liniowa do przewidywania
         self.linear = nn.Linear(hidden_dim, output_dim)
 
     def forward(self, x):
-        # x ma rozmiar (batch_size, seq_len, input_dim)
-        
-        # Przechodzimy przez GRU
         x = x.unsqueeze(-1)
         # x = self.inp(x)
         h0 = torch.zeros(2, x.size(0), self.hidden_dim).to("cuda")
-        out, _ = self.gru(x, h0)  # out ma rozmiar (batch_size, seq_len, hidden_dim)
+        out, _ = self.gru(x, h0)
+
+        last_output = out[:, -1, :]
         
-        # Używamy ostatniego wyjścia GRU (z ostatniej sekwencji)
-        last_output = out[:, -1, :]  # (batch_size, hidden_dim)
-        
-        # Przewidywanie
-        x = self.linear(last_output)  # (batch_size, output_dim)
-        
+        x = self.linear(last_output)
         return x

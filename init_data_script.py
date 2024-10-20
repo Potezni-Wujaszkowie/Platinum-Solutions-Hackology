@@ -2,9 +2,9 @@ import pandas as pd
 import sqlite3
 
 file_paths = [
-    '/home/dombrzalskip/hackology/distr1.csv',
-    '/home/dombrzalskip/hackology/distr2.csv',
-    '/home/dombrzalskip/hackology/distr3.csv'
+    'distr1.csv',
+    'distr2.csv',
+    'distr3.csv'
 ]
 
 

@@ -16,4 +16,3 @@ python3 AnomalyDetectionRunner.py
 
 ### Short model description
 
-#TODO
