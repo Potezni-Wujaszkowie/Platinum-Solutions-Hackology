@@ -5,12 +5,12 @@ from models import GRURegressionModel
 import pandas as pd
 import numpy as np
 
-if __name__ == "__main__":
+def predict():
     seed = 42
     valid_size = 0.1
     num_workers = 8
     batch = 32
-    csv_path = '/home/lukass/hackology/data2.csv'
+    csv_path = './data2.csv'
 
     random.seed(seed)
     torch.manual_seed(seed)
@@ -22,13 +22,12 @@ if __name__ == "__main__":
     eps_to_load = 45
     device = torch.device("cuda")
 
-    input_dim = 1  # Wymiar wejściowy (jedna cecha)
-    hidden_dim = 64  # Wymiar ukryty
-    output_dim = 1  # Wymiar wyjściowy (przewidywana wartość)
-    n_layers = 2  # Liczba warstw GRU
-    dropout = 0.1  # Współczynnik dropout
+    input_dim = 1
+    hidden_dim = 64
+    output_dim = 1
+    n_layers = 2
+    dropout = 0.1
 
-    # Tworzenie instancji modelu
     model = GRURegressionModel(input_dim, hidden_dim, output_dim, n_layers, dropout)
 
     model.load_state_dict(torch.load(f"models/data2/model_weights{eps_to_load}.pth", weights_only=True))
@@ -46,22 +45,27 @@ if __name__ == "__main__":
     trend = trends[-1]
 
     fut_pred = 30
-    # Predict future values
     preds = []
     for _ in range(fut_pred):
         sold = [last_column[idx] for idx in idcs]
         sold.insert(0, trend)
-        print(sold)
+        # print(sold)
         sequence = torch.tensor(sold).unsqueeze(0).to(device).float()
         out = model(sequence)
         out = torch.squeeze(out).item()
         preds.append(out)
-        print(out)
+        # print(out)
         last_column.append(out)
         idcs = [idx + 1 for idx in idcs]
 
-import matplotlib.pyplot as plt
+    return preds
 
-eps = [i for i in range(len(preds))]
-plt.plot(eps, preds)
-plt.savefig("chuj.png")
+if __name__ == "__main__":
+    preds = predict()
+    print(preds)
+
+# import matplotlib.pyplot as plt
+
+# eps = [i for i in range(len(preds))]
+# plt.plot(eps, preds)
+# plt.savefig("fig.png")
