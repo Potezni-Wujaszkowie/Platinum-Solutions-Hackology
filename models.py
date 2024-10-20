@@ -26,19 +26,18 @@ class GRURegressionModel(nn.Module):
 
         self.inp = nn.Linear(input_dim, hidden_dim)
         
-        self.input_dim = input_dim  # Wymiar wejściowy
-        self.hidden_dim = hidden_dim  # Wymiar ukryty
-        self.output_dim = output_dim  # Wymiar wyjściowy
-        self.n_layers = n_layers  # Liczba warstw GRU
+        self.input_dim = input_dim
+        self.hidden_dim = hidden_dim 
+        self.output_dim = output_dim
+        self.n_layers = n_layers
         
-        # Warstwa GRU
         self.gru = nn.GRU(input_size=input_dim, 
                           hidden_size=hidden_dim, 
                           num_layers=n_layers, 
                           dropout=dropout, 
-                          batch_first=True)  # Umożliwiamy podanie danych w formacie (batch, seq, feature)
+                          batch_first=True)
 
-        # Warstwa liniowa do przewidywania
+
         self.linear = nn.Linear(hidden_dim, output_dim)
 
     def forward(self, x):

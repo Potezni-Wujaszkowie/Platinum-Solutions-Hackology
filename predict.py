@@ -5,6 +5,7 @@ from models import GRURegressionModel
 import pandas as pd
 import numpy as np
 import sqlite3
+from datetime import datetime
 
 def predict(dist_id):
     seed = 42
@@ -49,8 +50,10 @@ def predict(dist_id):
     bias = len(last_column) - idcs[-1] - 1
     idcs = [idx + bias for idx in idcs]
     trend = trends[-1]
-
-    fut_pred = 365
+    today = datetime.now()
+    end_of_month = datetime(today.year+1, today.month-1, today.day)
+    days_reamin = (end_of_month - today).days
+    fut_pred = days_reamin
     preds = []
     for _ in range(fut_pred):
         sold = [last_column[idx] for idx in idcs]
@@ -67,7 +70,7 @@ def predict(dist_id):
     return preds
 
 if __name__ == "__main__":
-    preds = predict()
+    preds = predict(1)
     print(preds)
 
 # import matplotlib.pyplot as plt

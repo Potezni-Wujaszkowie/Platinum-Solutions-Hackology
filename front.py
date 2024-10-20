@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import datetime
+from datetime import timedelta
+from datetime import datetime
 from predict import predict
 
 PRODUCTS = ["\"Product 1\""]
@@ -19,10 +20,12 @@ def generate_random_df(product, distributor):
 
 def generate_predictions(product, distributor):
     np.random.seed(42)
-    preds = predict(distributor)
+    preds = predict(1)
     today = datetime.now()
-    one_year_later = today + datetime.timedelta(days=365)
-    dates = pd.date_range(start=datetime.now, end=one_year_later, freq='D')
+    end_of_month = datetime(today.year+1, today.month-1, today.day)
+    days_reamin = (end_of_month - today).days
+    one_year_later = today + timedelta(days=days_reamin)
+    dates = pd.date_range(start=datetime.now(), end=one_year_later, freq='D')
     return pd.DataFrame({
         'time': dates,
         'quantity': preds
@@ -36,14 +39,11 @@ def aggregate_data(df, aggregation):
         label_interval = 2
     elif aggregation == "Monthly":
         aggregated_data = df.resample('ME', on='time').sum()
-        month_names = ['January', 'February', 'March', 'April', 'May', 'June',
-                       'July', 'August', 'September', 'October', 'November', 'December']
-        aggregated_data.index = month_names[:len(aggregated_data)]
+        aggregated_data.index = [f'M{q+1}' for q in range(len(aggregated_data))]
         label_interval = 1
     elif aggregation == "Quarterly":
         aggregated_data = df.resample('QE', on='time').sum()
-        x_labels = ['I', 'II', 'III', 'IV']
-        aggregated_data.index = [f'Q{x_labels[q]}' for q in range(len(aggregated_data))]
+        aggregated_data.index = [f'Q{q+1}' for q in range(len(aggregated_data))]
         label_interval = 1
     return aggregated_data, label_interval
 
