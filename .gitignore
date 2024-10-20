@@ -3,3 +3,5 @@ project2env
 __pycache__
 *.pyc
 *.vscode
+notes.md
+gradio_front

@@ -2,8 +2,10 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import datetime
+from predict import predict
 
-PRODUCTS = ["\"Product A\"", "\"Product B\"", "\"Product C\"", "\"Product D\""]
+PRODUCTS = ["\"Product 1\""]
 DISTRIBUTORS = ["\"Distributor X\"", "\"Distributor Y\"", "\"Distributor Z\""]
 
 def generate_random_df(product, distributor):
@@ -16,7 +18,15 @@ def generate_random_df(product, distributor):
     })
 
 def generate_predictions(product, distributor):
-    return generate_random_df(product, distributor)
+    np.random.seed(42)
+    preds = predict(distributor)
+    today = datetime.now()
+    one_year_later = today + datetime.timedelta(days=365)
+    dates = pd.date_range(start=datetime.now, end=one_year_later, freq='D')
+    return pd.DataFrame({
+        'time': dates,
+        'quantity': preds
+    })
 
 def aggregate_data(df, aggregation):
     if aggregation == "Weekly":
