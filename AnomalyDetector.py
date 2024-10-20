@@ -26,8 +26,6 @@ class AnomalyDetector:
             logging.warning(f"Invalid dates encountered: {invalid_dates.tolist()}")
 
         data = data.dropna(subset=['date'])
-
-        # Use .loc to avoid SettingWithCopyWarning
         data.loc[:, 'year'] = data['date'].dt.year
         data.loc[:, 'month'] = data['date'].dt.month
         data.loc[:, 'day'] = data['date'].dt.day

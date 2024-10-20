@@ -1,5 +1,6 @@
 import logging
-from annomaly_detector import AnomalyDetector
+import time
+from AnomalyDetector import AnomalyDetector  
 
 class AnomalyDetectionPipeline:
     def __init__(self, db_path):
@@ -17,11 +18,29 @@ class AnomalyDetectionPipeline:
     def handle_anomalies(self, anomalies):
         if not anomalies.empty:
             logging.info(f"Anomalies detected:\n{anomalies}")
-            # Here you can implement additional handling, like sending alerts or storing the anomalies in another table
+            # Add some actions
         else:
             logging.info("No anomalies detected.")
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            logging.FileHandler("anomaly_detection.log"),
+            logging.StreamHandler()
+        ]
+    )
+
     pipeline = AnomalyDetectionPipeline('my_database.db')
-    pipeline.run()
+
+    while True:
+        try:
+            logging.info("Running anomaly detection...")
+            pipeline.run()
+            logging.info("Sleeping for 1 hour.")
+            time.sleep(3600)  
+        except Exception as e:
+            logging.error(f"An error occurred: {e}", exc_info=True)
+            logging.info("Retrying in 1 hour.")
+            time.sleep(3600)  

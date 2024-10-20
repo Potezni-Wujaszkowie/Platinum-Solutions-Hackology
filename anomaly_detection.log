@@ -1,0 +1,7 @@
+2024-10-20 09:03:58,452 [INFO] Running anomaly detection...
+2024-10-20 09:03:58,452 [INFO] Starting anomaly detection pipeline.
+2024-10-20 09:03:58,487 [WARNING] Invalid dates encountered: ['1410-07-13', '1110-07-13', '1000-07-13']
+2024-10-20 09:03:58,771 [INFO] Anomalies detected:
+        id       date  products_sold   price  trends  dist_id  year  month  day  day_of_week  anomaly
+3718  3719 2014-12-29            173  188.23     100        2  2014     12   29            0       -1
+2024-10-20 09:03:58,771 [INFO] Sleeping for 1 hour.
