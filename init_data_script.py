@@ -8,21 +8,26 @@ file_paths = [
 ]
 
 
+column_names = ['index', 'date', 'products_sold', 'price', 'trends']
+
+
 dataframes = []
 
 
 for idx, file_path in enumerate(file_paths, start=1):
-    df = pd.read_csv(file_path)
+    df = pd.read_csv(file_path, names=column_names, header=0, index_col=None)
     df['dist_id'] = idx
     dataframes.append(df)
 
-# Concatenate all DataFrames into one
+
 combined_df = pd.concat(dataframes, ignore_index=True)
 
-# Display the combined DataFrame (optional)
+
+combined_df.drop(columns=['index'], inplace=True, errors='ignore')
+
+
 print(combined_df)
 
-# Create SQLite database and table
 def create_database():
     conn = sqlite3.connect('my_database.db')
     cursor = conn.cursor()
@@ -33,13 +38,12 @@ def create_database():
         products_sold INTEGER,
         price REAL,
         trends INTEGER,
-        dist_id INTEGER  -- Change dist_id to INTEGER
+        dist_id INTEGER
     )
     ''')
     conn.commit()
     conn.close()
 
-# Load the combined DataFrame into the SQLite table
 def load_data_to_sqlite(df):
     conn = sqlite3.connect('my_database.db')
     df.to_sql('sales_data', conn, if_exists='append', index=False)
