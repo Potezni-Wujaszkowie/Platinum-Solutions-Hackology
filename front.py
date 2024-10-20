@@ -97,7 +97,7 @@ def main():
     selected_distributor = st.selectbox("Choose a distributor", DISTRIBUTORS)
     st.title(f"Demand Forecast for {selected_product} from {selected_distributor} for the Next Year")
     df = generate_predictions(selected_product, selected_distributor)
-    aggregation = st.selectbox("Choose aggregation method", ["Weekly", "Monthly", "Quarterly"])
+    aggregation = st.selectbox("Choose aggregation method", ["Monthly", "Weekly", "Quarterly"])
     aggregated_data, label_interval = aggregate_data(df, aggregation)
     plot_bar_chart(aggregated_data, label_interval, selected_product, selected_distributor)
     plot_line_chart(aggregated_data, label_interval, selected_product, selected_distributor)
