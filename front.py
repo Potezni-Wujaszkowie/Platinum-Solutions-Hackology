@@ -25,13 +25,13 @@ def aggregate_data(df, aggregation):
         aggregated_data.index = week_labels
         label_interval = 2
     elif aggregation == "Monthly":
-        aggregated_data = df.resample('M', on='time').sum()
+        aggregated_data = df.resample('ME', on='time').sum()
         month_names = ['January', 'February', 'March', 'April', 'May', 'June',
                        'July', 'August', 'September', 'October', 'November', 'December']
         aggregated_data.index = month_names[:len(aggregated_data)]
         label_interval = 1
     elif aggregation == "Quarterly":
-        aggregated_data = df.resample('Q', on='time').sum()
+        aggregated_data = df.resample('QE', on='time').sum()
         x_labels = ['I', 'II', 'III', 'IV']
         aggregated_data.index = [f'Q{x_labels[q]}' for q in range(len(aggregated_data))]
         label_interval = 1

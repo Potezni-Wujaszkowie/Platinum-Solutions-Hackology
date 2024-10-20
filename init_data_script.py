@@ -10,10 +10,10 @@ file_paths = [
 
 dataframes = []
 
-# Read each file, add distributor ID as an integer, and append to the list
+
 for idx, file_path in enumerate(file_paths, start=1):
     df = pd.read_csv(file_path)
-    df['dist_id'] = idx  # Add distributor ID as an integer (1, 2, 3)
+    df['dist_id'] = idx
     dataframes.append(df)
 
 # Concatenate all DataFrames into one
