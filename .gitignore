@@ -1,0 +1,5 @@
+project2env
+*.pth
+__pycache__
+*.pyc
+*.vscode
