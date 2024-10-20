@@ -3,7 +3,7 @@
 ### Run app
 
 ```bash
-streamlit run front.py
+streamlit run PredictDemandApp.py 
 ```
 
 ### AnomalyDetection
